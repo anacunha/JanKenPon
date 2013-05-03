@@ -14,7 +14,7 @@ public enum Jogada {
 	private static final int SIZE = VALUES.length;
 	private static final Random RANDOM = new Random();
 	
-	private static Jogada randomJogada() {
+	public static Jogada randomJogada() {
 		return VALUES[RANDOM.nextInt(SIZE)];
 	}
 }
