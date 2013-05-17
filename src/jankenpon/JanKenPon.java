@@ -22,33 +22,33 @@ public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface
 	public String jogar(Jogada jogada) throws RemoteException {
 		
 		Jogada jogadaServidor = Jogada.randomJogada();
-		String resultado = jogadaServidor + " - Empate";
+		String resultado = jogadaServidor + "\nResultado: EMPATE";
 		
 		if(jogada == Jogada.PEDRA) {
 			
 			if(jogadaServidor == Jogada.TESOURA)
-				resultado = jogadaServidor + " - Vitoria";
+				resultado = jogadaServidor + "\nResultado: VITORIA";
 			else
 				if(jogadaServidor == Jogada.PAPEL)
-					resultado = jogadaServidor + " - Derrota";			
+					resultado = jogadaServidor + "\nResultado: DERROTA";			
 		}
 		else {
 			
 			if(jogada == Jogada.PAPEL) {
 				
 				if(jogadaServidor == Jogada.PEDRA)
-					resultado = jogadaServidor + " - Vitoria";
+					resultado = jogadaServidor + "\nResultado: VITORIA";
 				else
 					if(jogadaServidor == Jogada.TESOURA)
-						resultado = jogadaServidor + " - Derrota";
+						resultado = jogadaServidor + "\nResultado: DERROTA";
 			}
 			else {
 				
 				if(jogadaServidor == Jogada.PAPEL)
-					resultado = jogadaServidor + " - Vitoria";
+					resultado = jogadaServidor + "\nResultado: VITORIA";
 				else
 					if(jogadaServidor == Jogada.PEDRA)
-						resultado = jogadaServidor + " - Derrota";
+						resultado = jogadaServidor + "\nResultado: DERROTA";
 			}
 		}
 		

@@ -20,7 +20,7 @@ public class JanKenPonClient {
 			JanKenPonInterface jankenpon = (JanKenPonInterface) Naming.lookup("//localhost/JanKenPon");
 			Jogada jogada = Jogada.valueOf(args[0].toUpperCase());
 			System.out.println("Voce jogou: " + jogada);
-			System.out.println(jankenpon.jogar(jogada));
+			System.out.println("Seu oponente jogou: " + jankenpon.jogar(jogada));
 		}
 		catch(Exception e) {
 			System.out.println("JanKenPonCliente has failed.");
