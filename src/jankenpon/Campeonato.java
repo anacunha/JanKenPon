@@ -23,8 +23,8 @@ public class Campeonato {
 			return false;
 		
 		// Nao adiciona jogadores com mesmo nome
-		for(Jogador j : jogadores)
-			if(j.getNome().equalsIgnoreCase(nomeJogador))
+		for(Jogador jogador : jogadores)
+			if(jogador.getNome().equalsIgnoreCase(nomeJogador))
 				return false;
 		
 		jogadores.add(new Jogador(nomeJogador));
@@ -32,15 +32,12 @@ public class Campeonato {
 		System.out.println("Jogadores: " + jogadores.toString());
 		
 		if (jogadores.size() == numeroJogadores) {
-			System.out.printf("\nCampeonato cheio com %d jogadores.", numeroJogadores);
-			System.out.printf("\nIniciando o campeonato ... ", numeroJogadores);
-			System.out.printf("\nCriando partidas ... ", numeroJogadores);
+			System.out.printf("\n\nCampeonato completo com %d jogadores.\n", numeroJogadores);
+			System.out.println("\nIniciando o campeonato ... ");
+			System.out.println("Criando partidas ... ");
 			
 			criarPartidas();
-			// Cria primeiro round de partidas
-			//rounds.add(new Round(jogadores));
 		}
-		
 		return true;
 	}
 	
@@ -52,12 +49,20 @@ public class Campeonato {
 			partidas.add(new Partida(jogadores.get(i*2), jogadores.get((i*2)+1)));
 			System.out.printf("\nPartida %d - %s x %s", i+1, partidas.get(i).getPrimeiroJogador(), partidas.get(i).getSegundoJogador());
 		}
-
+		for(int i = numeroJogadores/2; i < numeroJogadores - 1; i++) {
+			partidas.add(new Partida());
+			System.out.printf("\nPartida %d - %s x %s", i+1, partidas.get(i).getPrimeiroJogador(), partidas.get(i).getSegundoJogador());
+		}
+		System.out.printf("\nNumero total de partidas: %d", partidas.size());
 		return true;
 	}
 	
 	public boolean isOver() {
-		return false;
+		for(Partida partida : partidas) {
+			if(!partida.isOver())
+				return false;
+		}
+		return true;
 	}
 	
 	public boolean isFull() {
@@ -66,11 +71,13 @@ public class Campeonato {
 	
 	public Partida getInfoProximaPartida(String nomeJogador) {
 		for(Partida partida : partidas) {
-			if(partida.getPrimeiroJogador().getNome().equals(nomeJogador) && partida.getVencedor() == null)
-				return partida;
-			else
-				if(partida.getSegundoJogador().getNome().equals(nomeJogador) && partida.getVencedor() == null)
+			if(partida.isFull()) {
+				if(partida.getPrimeiroJogador().getNome().equals(nomeJogador) && partida.getVencedor() == null)
 					return partida;
+				else
+					if(partida.getSegundoJogador().getNome().equals(nomeJogador) && partida.getVencedor() == null)
+						return partida;
+			}
 		}
 		return null;
 	}
@@ -80,7 +87,7 @@ public class Campeonato {
 		for(Partida partida : partidas) {
 			if(partida.getPrimeiroJogador().getNome().equals(nomeJogador) && !partida.jogadasFeitas()) {
 				partida.setJogadaPrimeiroJogador(jogada);
-				System.out.printf("\n%s jogou %s", nomeJogador, jogada);
+				System.out.printf("\n%s jogou %s\n", nomeJogador, jogada);
 				
 				// Se o adversario ja jogou, calcula resultado da partida
 				if(partida.getJogadaSegundoJogador() != null) {
@@ -92,7 +99,7 @@ public class Campeonato {
 			else {
 				if(partida.getSegundoJogador().getNome().equals(nomeJogador) && !partida.jogadasFeitas()) {
 					partida.setJogadaSegundoJogador(jogada);
-					System.out.printf("\n%s jogou %s", nomeJogador, jogada);
+					System.out.printf("\n\n%s jogou %s", nomeJogador, jogada);
 					
 					// Se o adversario ja jogou, calcula resultado da partida
 					if(partida.getJogadaPrimeiroJogador() != null) {
@@ -106,14 +113,17 @@ public class Campeonato {
 		return false;
 	}
 	
+	// Needs to be fixed !!!
 	public Resultado getResultadoUltimaPartida(String nomeJogador) {
 		for(Partida partida : partidas) {
-			if(partida.getPrimeiroJogador().getNome().equals(nomeJogador) && (partida.jogadasFeitas() || partida.isEmpate())) {
-				return partida.getResultado(nomeJogador);
-			}
-			else {
-				if(partida.getSegundoJogador().getNome().equals(nomeJogador) && (partida.jogadasFeitas() || partida.isEmpate())) {
+			if(partida.isFull() && !partida.isDone()) {
+				if(partida.getPrimeiroJogador().getNome().equals(nomeJogador) && (partida.jogadasFeitas() || partida.isEmpate())) {
 					return partida.getResultado(nomeJogador);
+				}
+				else {
+					if(partida.getSegundoJogador().getNome().equals(nomeJogador) && (partida.jogadasFeitas() || partida.isEmpate())) {
+						return partida.getResultado(nomeJogador);
+					}
 				}
 			}
 		}
@@ -138,20 +148,78 @@ public class Campeonato {
 	public boolean isPartidaAtualOver(String nomeJogador) {				
 		// Procura a partida atual do qual jogador faz parte
 		for(int i = partidas.size() - 1; i >= 0; i--) {
-			if(partidas.get(i).getPrimeiroJogador().getNome().equals(nomeJogador)) {
-				return partidas.get(i).isOver();
-			}
-			else {
-				if(partidas.get(i).getSegundoJogador().getNome().equals(nomeJogador)) {
+			if(partidas.get(i).isFull()) {
+				if(partidas.get(i).getPrimeiroJogador().getNome().equals(nomeJogador)) {
 					return partidas.get(i).isOver();
+				}
+				else {
+					if(partidas.get(i).getSegundoJogador().getNome().equals(nomeJogador)) {
+						return partidas.get(i).isOver();
+					}
 				}
 			}
 		}
-		return false;
-			
+		return false;			
 	}
 	
 	public ArrayList<Partida> getPartidas() {
 		return partidas;
+	}
+	
+	public boolean removeJogador(String nomeJogador) {
+		for(Jogador jogador : jogadores) {
+			jogador.getNome().equals(nomeJogador);
+			jogadores.remove(jogador);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addJogadorToNextRound(String nomeJogador) {
+		if(this.isOver())
+			return false;
+		
+		for(Partida partida : partidas)
+			if(!partida.isFull()) {
+				if(partida.getPrimeiroJogador() == null) {
+					System.out.printf("\n\n%s passou para proximo round.\n", nomeJogador);
+					partida.setPrimeiroJogador(new Jogador(nomeJogador));
+					return true;
+				}
+				else
+					if(partida.getSegundoJogador() == null) {
+						System.out.printf("\n\n%s passou para proximo round.\n", nomeJogador);
+						partida.setSegundoJogador(new Jogador(nomeJogador));
+						if(partida.isFull())
+							System.out.println(partida.toString());
+						return true;
+					}
+			}		
+		return false;
+	}
+	
+	public Jogador getVencedor() {
+		if(this.isOver())
+			return partidas.get(partidas.size() -1).getVencedor();
+		else
+			return null;
+	}
+	
+	public boolean markLastPartidaAsDone(String nomeJogador) {
+		for(Partida partida : partidas)
+			if(partida.isFull() && !partida.isDone()) {
+				if(partida.getPrimeiroJogador().getNome().equals(nomeJogador)) {
+					System.out.printf("\nFinalizada partida %s\n", partida.toString());
+					partida.markAsDone();
+					return true;
+				}
+				else
+					if(partida.getSegundoJogador().getNome().equals(nomeJogador)) {
+						System.out.printf("\nFinalizada partida %s\n", partida.toString());
+						partida.markAsDone();
+						return true;
+					}
+			}
+		return false;
 	}
 }

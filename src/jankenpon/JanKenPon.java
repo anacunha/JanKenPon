@@ -21,6 +21,10 @@ public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface
 	public boolean addJogador(String nomeJogador) throws RemoteException {
 		return campeonato.addJogador(nomeJogador);
 	}
+	
+	public boolean addJogadorToNextRound(String nomeJogador) throws RemoteException {
+		return campeonato.addJogadorToNextRound(nomeJogador);
+	}
 
 	public boolean clearPartidaEmpatada(String nomeJogador) throws RemoteException {
 		return campeonato.clearPartidaEmpatada(nomeJogador);
@@ -48,6 +52,10 @@ public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface
 		}
 	}
 	
+	public boolean removeJogador(String nomeJogador) throws RemoteException {
+		return campeonato.removeJogador(nomeJogador);
+	}
+	
 	public String getInfoProximaPartida(String nomeJogador) throws RemoteException {
 		if(campeonato.getInfoProximaPartida(nomeJogador) != null)
 			return campeonato.getInfoProximaPartida(nomeJogador).toString();
@@ -57,5 +65,9 @@ public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface
 
 	public Resultado getResultadoUltimaPartida(String nomeJogador) throws RemoteException {
 		return campeonato.getResultadoUltimaPartida(nomeJogador);
+	}
+	
+	public boolean markLastPartidaAsDone(String nomeJogador) throws RemoteException {
+		return campeonato.markLastPartidaAsDone(nomeJogador);
 	}
 }

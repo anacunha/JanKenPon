@@ -9,14 +9,35 @@ public class Partida {
 	private Resultado resultadoPrimeiroJogador;
 	private Resultado resultadoSegundoJogador;
 	private boolean empate;
+	private boolean done;
 	
 	public Partida(Jogador primeiroJogador, Jogador segundoJogador) {
 		this.primeiroJogador = primeiroJogador;
 		this.segundoJogador = segundoJogador;
 	}
 	
+	public Partida() {}
+
+	public boolean setPrimeiroJogador(Jogador primeiroJogador) {
+		if(this.primeiroJogador == null) {
+			this.primeiroJogador = primeiroJogador;
+			return true;
+		}
+		else
+			return false;
+	}
+	
 	public Jogador getPrimeiroJogador() {
 		return this.primeiroJogador;
+	}
+	
+	public boolean setSegundoJogador(Jogador segundoJogador) {
+		if(this.segundoJogador == null) {
+			this.segundoJogador = segundoJogador;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	public Jogador getSegundoJogador() {
@@ -110,7 +131,7 @@ public class Partida {
 	}
 	
 	public String toString() {
-		return String.format("Partida: %s x %s", primeiroJogador.getNome(), segundoJogador.getNome());
+		return String.format("%s x %s", primeiroJogador.getNome(), segundoJogador.getNome());
 	}
 	
 	public boolean jogadasFeitas() {
@@ -135,7 +156,6 @@ public class Partida {
 				empate = true;
 				return true;
 			}
-		
 		return false;
 	}
 	
@@ -145,5 +165,17 @@ public class Partida {
 	
 	public boolean isEmpate() {
 		return empate;
+	}
+	
+	public boolean isFull() {
+		return (primeiroJogador != null && segundoJogador != null) ? true : false;
+	}
+	
+	public boolean isDone() {
+		return done;
+	}
+	
+	public void markAsDone() {
+		done = true;
 	}
 }
