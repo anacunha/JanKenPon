@@ -22,14 +22,20 @@ public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface
 		return campeonato.addJogador(nomeJogador);
 	}
 
-	@Override
+	public boolean clearPartidaEmpatada(String nomeJogador) throws RemoteException {
+		return campeonato.clearPartidaEmpatada(nomeJogador);
+	}
+	
 	public boolean isCampeonatoFull() throws RemoteException {
 		return campeonato.isFull();
 	}
 
-	@Override
 	public boolean isCampeonatoOver() throws RemoteException {
 		return campeonato.isOver();
+	}
+	
+	public boolean isPartidaAtualOver(String nomeJogador) throws RemoteException {
+		return campeonato.isPartidaAtualOver(nomeJogador);
 	}
 	
 	public boolean recebeJogada(String nomeJogador, String stringJogada) throws RemoteException {

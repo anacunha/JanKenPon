@@ -32,41 +32,46 @@ public class JanKenPonClient {
 				// Quando todos jogadores necessarios se registraram, informa a proxima partida
 				System.out.println(jankenpon.getInfoProximaPartida(nomeJogador));
 				
-				// Recebe Jogada
-				System.out.print("Informe sua jogada (PEDRA, PAPEL ou TESOURA): ");
-				String stringJogada = System.console().readLine().toUpperCase();
-				 
-				while(!jankenpon.recebeJogada(nomeJogador, stringJogada)) {
-					
-					if(stringJogada.isEmpty())
-						System.out.println("Escolha sua jogada entre: PEDRA, PAPEL ou TESOURA.");
-					else {
-						System.out.printf("\nVoce jogou %s\n", stringJogada);
-						System.out.println("Escolha sua jogada entre: PEDRA, PAPEL ou TESOURA.");
-					}
-					stringJogada = System.console().readLine().toUpperCase();
-				}
-				System.out.printf("\nVoce jogou %s\n", stringJogada);
+				// Enquanto partida atual ainda nao terminou
+				while(!jankenpon.isPartidaAtualOver(nomeJogador)) {
 				
-				// Aguarda jogada do adversario
-				while(jankenpon.getResultadoUltimaPartida(nomeJogador) == null) {
-					System.out.println("Aguardando jogada do adversario ...");
-					Thread.sleep(5000);
-				}
-				
-				// Mostra resultados
-				switch (jankenpon.getResultadoUltimaPartida(nomeJogador)) {
-					case DERROTA:
-						System.out.println("Voce perdeu ...");
-						System.exit(1);
-						break;
-					case EMPATE:
-						System.out.println("Empate!\nJogue novamente: ");
+					// Recebe Jogada
+					System.out.print("Informe sua jogada (PEDRA, PAPEL ou TESOURA): ");
+					String stringJogada = System.console().readLine().toUpperCase();
+					 
+					// Verifica validade da jogada
+					while(!jankenpon.recebeJogada(nomeJogador, stringJogada)) {
+						
+						if(stringJogada.isEmpty())
+							System.out.println("Escolha sua jogada entre: PEDRA, PAPEL ou TESOURA.");
+						else {
+							System.out.printf("\nVoce jogou %s\n", stringJogada);
+							System.out.println("Escolha sua jogada entre: PEDRA, PAPEL ou TESOURA.");
+						}
 						stringJogada = System.console().readLine().toUpperCase();
-						break;
-					case VITORIA:
-						System.out.println("Voce ganhou ...");
-						break;
+					}
+					System.out.printf("\nVoce jogou %s\n", stringJogada);
+					
+					// Aguarda jogada do adversario
+					while(jankenpon.getResultadoUltimaPartida(nomeJogador) == null) {
+						System.out.println("Aguardando jogada do adversario ...");
+						Thread.sleep(5000);
+					}
+					
+					// Mostra resultados
+					switch (jankenpon.getResultadoUltimaPartida(nomeJogador)) {
+						case DERROTA:
+							System.out.println("Voce perdeu ...");
+							System.exit(1);
+							break;
+						case EMPATE:
+							System.out.println("Empate!\nJogue novamente: ");
+							jankenpon.clearPartidaEmpatada(nomeJogador);
+							break;
+						case VITORIA:
+							System.out.println("Voce ganhou ...");
+							break;
+					}
 				}
 
 			}
