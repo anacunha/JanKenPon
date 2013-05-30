@@ -10,49 +10,46 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class JanKenPon extends UnicastRemoteObject implements JanKenPonInterface {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	private Campeonato campeonato;
 	
-	public JanKenPon() throws RemoteException {
+	public JanKenPon(int numeroJogadores) throws RemoteException {
 		super();
+		campeonato = new Campeonato(numeroJogadores);
 	}
 
-	public String jogar(Jogada jogada) throws RemoteException {
-		
-		Jogada jogadaServidor = Jogada.randomJogada();
-		String resultado = jogadaServidor + "\nResultado: EMPATE";
-		
-		if(jogada == Jogada.PEDRA) {
-			
-			if(jogadaServidor == Jogada.TESOURA)
-				resultado = jogadaServidor + "\nResultado: VITORIA";
-			else
-				if(jogadaServidor == Jogada.PAPEL)
-					resultado = jogadaServidor + "\nResultado: DERROTA";			
-		}
-		else {
-			
-			if(jogada == Jogada.PAPEL) {
-				
-				if(jogadaServidor == Jogada.PEDRA)
-					resultado = jogadaServidor + "\nResultado: VITORIA";
-				else
-					if(jogadaServidor == Jogada.TESOURA)
-						resultado = jogadaServidor + "\nResultado: DERROTA";
-			}
-			else {
-				
-				if(jogadaServidor == Jogada.PAPEL)
-					resultado = jogadaServidor + "\nResultado: VITORIA";
-				else
-					if(jogadaServidor == Jogada.PEDRA)
-						resultado = jogadaServidor + "\nResultado: DERROTA";
-			}
-		}
-		
-		return resultado;
+	public boolean addJogador(String nomeJogador) throws RemoteException {
+		return campeonato.addJogador(nomeJogador);
 	}
 
+	@Override
+	public boolean isCampeonatoFull() throws RemoteException {
+		return campeonato.isFull();
+	}
+
+	@Override
+	public boolean isCampeonatoOver() throws RemoteException {
+		return campeonato.isOver();
+	}
+	
+	public boolean recebeJogada(String nomeJogador, String stringJogada) throws RemoteException {
+		try {
+			Jogada jogada = Jogada.valueOf(stringJogada);
+			return campeonato.recebeJogada(nomeJogador, jogada);
+		}
+		catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public String getInfoProximaPartida(String nomeJogador) throws RemoteException {
+		if(campeonato.getInfoProximaPartida(nomeJogador) != null)
+			return campeonato.getInfoProximaPartida(nomeJogador).toString();
+		else
+			return null;
+	}
+
+	public Resultado getResultadoUltimaPartida(String nomeJogador) throws RemoteException {
+		return campeonato.getResultadoUltimaPartida(nomeJogador);
+	}
 }
