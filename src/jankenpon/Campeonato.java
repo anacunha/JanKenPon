@@ -116,7 +116,7 @@ public class Campeonato extends UnicastRemoteObject implements CampeonatoInterfa
 					// Se o adversario ja jogou, calcula resultado da partida
 					if(partida.getJogadaSegundoJogador() != null) {
 						partida.getVencedor();
-						System.out.printf("\n%s x %s - Vencedor: %s", partida.getPrimeiroJogador(), partida.getSegundoJogador(), partida.getVencedor());
+						System.out.printf("\n%s x %s - Vencedor: %s\n", partida.getPrimeiroJogador(), partida.getSegundoJogador(), partida.getVencedor());
 					}
 					return true;
 				}
@@ -128,7 +128,7 @@ public class Campeonato extends UnicastRemoteObject implements CampeonatoInterfa
 						// Se o adversario ja jogou, calcula resultado da partida
 						if(partida.getJogadaPrimeiroJogador() != null) {
 							partida.getVencedor();
-							System.out.printf("\n\n%s x %s - Vencedor: %s\n\n", partida.getPrimeiroJogador(), partida.getSegundoJogador(), partida.getVencedor());
+							System.out.printf("\n%s x %s - Vencedor: %s\n", partida.getPrimeiroJogador(), partida.getSegundoJogador(), partida.getVencedor());
 						}
 						return true;
 					}
@@ -200,7 +200,7 @@ public class Campeonato extends UnicastRemoteObject implements CampeonatoInterfa
 		for(Jogador jogador : jogadores) {
 			jogador.getNome().equals(nomeJogador);
 			jogadores.remove(jogador);
-			System.out.printf("\n- %s foi eliminado.", nomeJogador);
+			System.out.printf("\n- %s foi eliminado.\n", nomeJogador);
 			return true;
 		}
 		return false;
@@ -216,13 +216,13 @@ public class Campeonato extends UnicastRemoteObject implements CampeonatoInterfa
 		for(Partida partida : partidas)
 			if(!partida.isFull()) {
 				if(partida.getPrimeiroJogador() == null) {
-					System.out.printf("\n\n- %s passou para proximo round.\n", nomeJogador);
+					System.out.printf("\n- %s passou para proximo round.\n", nomeJogador);
 					partida.setPrimeiroJogador(new Jogador(nomeJogador));
 					return true;
 				}
 				else
 					if(partida.getSegundoJogador() == null) {
-						System.out.printf("\n\n- %s passou para proximo round.\n", nomeJogador);
+						System.out.printf("\n- %s passou para proximo round.\n", nomeJogador);
 						partida.setSegundoJogador(new Jogador(nomeJogador));
 						if(partida.isFull())
 							System.out.println("\nNova Partida: " + partida.toString());

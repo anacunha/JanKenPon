@@ -30,7 +30,7 @@ public class JanKenPonServer {
 			Naming.rebind("Campeonato", new Campeonato(numeroJogadores));
 			System.out.println("JanKenPonServer is ready.\n");
 			
-			System.out.println("Campeonato iniciado com " + numeroJogadores + " jogadores.");
+			System.out.println("Campeonato iniciado para " + numeroJogadores + " jogadores.");
 		}
 		catch(Exception e) {
 			System.out.println("JanKenPonServer has failed.");

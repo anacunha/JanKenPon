@@ -86,7 +86,7 @@ public class JanKenPonClient {
 								Thread.sleep(3000);
 								break;
 							case VITORIA:
-								System.out.println("\nVoce ganhou esta partida ...");
+								System.out.println("\nVoce ganhou esta partida ...\n");
 								
 								// Caso tenha vencido, vai para proxima etapa
 								campeonato.addJogadorToNextRound(nomeJogador);
@@ -98,7 +98,7 @@ public class JanKenPonClient {
 				}
 				
 				if(campeonato.getVencedor().equals(nomeJogador))
-					System.out.println("\nParabens! Voce venceu o Campeonato de JanKenPon!");
+					System.out.println("Parabens, " + nomeJogador + "! Voce venceu o Campeonato de JanKenPon!");
 			}
 			else {
 				// O Campeonato ja esta cheio
