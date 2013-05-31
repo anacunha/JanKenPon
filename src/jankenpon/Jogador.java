@@ -1,6 +1,7 @@
 package jankenpon;
 
 /**
+ * Representa um Jogador de JanKenPon, identificado por seu nome.
  * 
  * @author Ana Luiza Cunha
  *

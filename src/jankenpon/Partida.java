@@ -1,5 +1,11 @@
 package jankenpon;
 
+/**
+ * Representa uma Partida de JanKenPon com dois Jogadores.
+ * 
+ * @author Ana Luiza Cunha
+ *
+ */
 public class Partida {
 	
 	private Jogada jogadaPrimeiroJogador;

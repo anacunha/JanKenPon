@@ -3,6 +3,7 @@ package jankenpon;
 import java.util.Random;
 
 /**
+ * Possiveis Jogadas de JanKenPon.
  * 
  * @author Ana Luiza Cunha
  *

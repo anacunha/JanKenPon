@@ -20,19 +20,22 @@ public class JanKenPonClient {
 			JanKenPonInterface jankenpon = (JanKenPonInterface) Naming.lookup("//localhost/JanKenPon");
 			String nomeJogador = args[0].trim(); 
 					
+			// Adiciona Jogador ao Campeonato
 			if(jankenpon.addJogador(nomeJogador)) {
 				System.out.println("Comecando campeaonato ...");
 				
-				// Enquanto Campeonato nao esta cheio, aguardamos novos jogadores
+				// Enquanto Campeonato nao esta cheio, aguarda novos jogadores
 				while(!jankenpon.isCampeonatoFull()) {
 					System.out.println("Aguardando outros jogadores ...");
 					Thread.sleep(5000);
 				}
 				
-				// Quando todos jogadores necessarios se registraram, inicia campeonato
+				// Quando todos jogadores necessarios se registraram, inicia o Campeonato
 				while(!jankenpon.isCampeonatoOver()) {
 					
 					String infoProximaPartida = jankenpon.getInfoProximaPartida(nomeJogador);
+					
+					// Aguarda informacoes sobre a proxima partida do Jogador
 					while(infoProximaPartida == null) {
 						System.out.println("Aguardando proxima partida ...");
 						Thread.sleep(3000);
@@ -40,14 +43,14 @@ public class JanKenPonClient {
 					}
 					System.out.println(jankenpon.getInfoProximaPartida(nomeJogador));
 					
-					// Enquanto partida atual ainda nao terminou
+					// Enquanto Partida atual ainda nao terminou
 					while(!jankenpon.isPartidaAtualOver(nomeJogador)) {
 					
-						// Recebe Jogada
+						// Recebe a Jogada do Jogador
 						System.out.print("Informe sua jogada (PEDRA, PAPEL ou TESOURA): ");
 						String stringJogada = System.console().readLine().toUpperCase();
 						 
-						// Verifica validade da jogada
+						// Verifica a validade da Jogada
 						while(!jankenpon.recebeJogada(nomeJogador, stringJogada)) {
 							
 							if(stringJogada.isEmpty())
@@ -60,26 +63,32 @@ public class JanKenPonClient {
 						}
 						System.out.printf("\nVoce jogou %s\n", stringJogada);
 						
-						// Aguarda jogada do adversario
+						// Aguarda a Jogada do adversario
 						while(jankenpon.getResultadoUltimaPartida(nomeJogador) == null) {
 							System.out.println("Aguardando jogada do adversario ...");
 							Thread.sleep(3000);
 						}
 						
-						// Mostra resultados
+						// Mostra resultados da Partida
 						switch (jankenpon.getResultadoUltimaPartida(nomeJogador)) {
 							case DERROTA:
 								System.out.println("Voce perdeu ...");
+								
+								// Caso tenha perdido, sai do Campeonato
 								jankenpon.removeJogador(nomeJogador);
 								System.exit(1);
 								break;
 							case EMPATE:
 								System.out.println("Empate!\n\nJogue novamente: ");
+								
+								// Caso ocorra empate, reseta os dados da Partida para jogar novamente
 								jankenpon.clearPartidaEmpatada(nomeJogador);
 								Thread.sleep(3000);
 								break;
 							case VITORIA:
 								System.out.println("Voce ganhou ...");
+								
+								// Caso tenha vencido, vai para proxima etapa
 								jankenpon.addJogadorToNextRound(nomeJogador);
 								Thread.sleep(4000);
 								jankenpon.markLastPartidaAsDone(nomeJogador);
