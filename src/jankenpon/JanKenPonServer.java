@@ -27,8 +27,8 @@ public class JanKenPonServer {
 			java.rmi.registry.LocateRegistry.createRegistry(1099);
 			System.out.println("RMI Registry ready.");
 			
-			Naming.rebind("JanKenPon", new JanKenPon(numeroJogadores));
-			System.out.println("JanKenPonServer is ready.");
+			Naming.rebind("Campeonato", new Campeonato(numeroJogadores));
+			System.out.println("JanKenPonServer is ready.\n");
 			
 			System.out.println("Campeonato iniciado com " + numeroJogadores + " jogadores.");
 		}

@@ -137,6 +137,14 @@ public class Partida {
 	}
 	
 	public String toString() {
+		if(primeiroJogador == null && segundoJogador == null)
+			return String.format("Indefinido x Indefinido");
+		
+		if(primeiroJogador == null)
+			return String.format("Indefinido x %s", segundoJogador.getNome());
+		if(segundoJogador == null)
+			return String.format("%s x Indefindo", primeiroJogador.getNome());
+		
 		return String.format("%s x %s", primeiroJogador.getNome(), segundoJogador.getNome());
 	}
 	
